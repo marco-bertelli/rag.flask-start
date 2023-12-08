@@ -1,0 +1,7 @@
+flask
+flask_limiter
+flask-cors
+python-dotenv
+pymongo
+llama_index
+pinecone
