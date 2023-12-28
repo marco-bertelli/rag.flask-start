@@ -14,7 +14,7 @@ from llama_index.llms import Perplexity
 import os
 
 llm = Perplexity(
-    api_key=os.getenv("PERPLEXITY_API_KEY"), model="mistral-7b-instruct", temperature=0.5
+    api_key=os.getenv("PERPLEXITY_API_KEY"), model="mixtral-8x7b-instruct", temperature=0.5
 )
 
 

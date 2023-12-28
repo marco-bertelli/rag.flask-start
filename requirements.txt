@@ -3,5 +3,5 @@ flask_limiter
 flask-cors
 python-dotenv
 pymongo
-llama_index
+llama_index==0.9.22
 pinecone
