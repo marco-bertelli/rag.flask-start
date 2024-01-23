@@ -67,6 +67,13 @@ def createQueryEngine(index):
 def get_service_context():
     return service_context
 
+def update_index(doc):
+    mongoIndex.insert(doc)
+
+
+def delete_document_from_index(doc_id):
+    mongoIndex.delete_ref_doc(doc_id)
+
 
 def buildVectorIndex():
     reader = SimpleDirectoryReader(

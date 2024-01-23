@@ -5,3 +5,5 @@ python-dotenv
 pymongo
 llama_index==0.9.22
 pinecone
+llmsherpa
+pandas

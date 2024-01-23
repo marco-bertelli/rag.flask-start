@@ -1,3 +1,4 @@
+from utils.parsers import parse_source_item, parse_items_to_delete
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
@@ -95,3 +96,50 @@ def getUserById(id):
     """
 
     return db['users'].find_one({'_id': ObjectId(id)})
+
+def get_document_to_add_in_index(sourceId):
+    """
+    Get and parse a source from MongoDB and add it to Llama Index Pinecone index
+    """
+
+    source = db.rag_sources.find_one({"_id": ObjectId(sourceId)})
+
+    source_documents = parse_source_item(source)
+
+    return source_documents
+
+
+def get_document_to_delete_from_index(sourceId):
+    """
+    Delete a source from MongoDB and Llama Index Pinecone index
+    """
+
+    source = db.rag_sources.find_one({"_id": ObjectId(sourceId)})
+
+    documents_to_delete = parse_items_to_delete(source)
+
+    return documents_to_delete
+
+def insert_source(type, body):
+    """
+    Insert a source in MongoDB
+    """
+
+    return db.rag_sources.insert_one({
+        **body,
+        "type": type,
+        "createdAt": datetime.datetime.now(),
+    })
+
+
+def delete_source(sourceId):
+    """
+    Delete a source from MongoDB
+    """
+
+    source = db.rag_sources.find_one({"_id": ObjectId(sourceId)})
+
+    db.rag_sources.delete_one({"_id": ObjectId(sourceId)})
+
+    return source
+
