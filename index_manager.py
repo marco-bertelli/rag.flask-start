@@ -14,17 +14,15 @@ from llama_index.llms import Perplexity
 import os
 
 llm = Perplexity(
-    api_key=os.getenv("PERPLEXITY_API_KEY"), model="mixtral-8x7b-instruct", temperature=0.5
+    api_key=os.getenv("PERPLEXITY_API_KEY"), model="mixtral-8x7b-instruct", temperature=0.2
 )
 
 
 index_store = build_mongo_index()
 vector_store = build_pinecone_vector_store()
 
-llm_predictor = LLMPredictor(llm=llm)
-
 service_context = ServiceContext.from_defaults(
-    llm_predictor=llm_predictor,
+    llm=llm,
     embed_model="local:BAAI/bge-small-en-v1.5",
 )
 
@@ -47,7 +45,7 @@ def initialize_index():
         mongoIndex = load_index_from_storage(
             service_context=service_context,
             storage_context=storage_context,
-            llm_predictor=llm_predictor,
+            llm=llm,
             index_id='mongo-index',
         )
 
@@ -61,7 +59,7 @@ def initialize_index():
 
 
 def createQueryEngine(index):
-    return index.as_query_engine(response_mode="simple_summarize", top_k=3)
+    return index.as_retriever(top_k=3)
 
 
 def get_service_context():

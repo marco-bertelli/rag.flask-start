@@ -97,7 +97,7 @@ def query_index(chatId):
         service_context=service_context,
         system_prompt=(
             """\
-            You are a chatbot. You MUST NOT provide any information unless it is in the Context or previous messages. If the user ask something you don't know, say that you cannot answer. \
+            You are a chatbot. You MUST NOT provide any information unless it is in the Context or previous messages or general conversation. If the user ask something you don't know, say that you cannot answer. \
             you MUST keep the answers short and simple. \
             """
         ),
