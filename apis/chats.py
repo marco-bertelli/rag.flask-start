@@ -91,9 +91,9 @@ def query_index(chatId):
         chat_history=history
     )
 
+    # re-add history when fix perplexity API problem with llama_index guys
     chat_engine = ContextChatEngine.from_defaults(
         retriever=query_engine,
-        memory=memory,
         service_context=service_context,
         system_prompt=(
             """\
