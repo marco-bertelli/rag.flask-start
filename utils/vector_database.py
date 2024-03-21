@@ -1,5 +1,5 @@
-from llama_index.storage.index_store import MongoIndexStore
-from llama_index.vector_stores import PineconeVectorStore
+from llama_index.storage.index_store.mongodb import MongoIndexStore
+from llama_index.vector_stores.pinecone import PineconeVectorStore
 
 from pinecone import Pinecone
 import openai

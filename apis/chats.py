@@ -9,8 +9,8 @@ from mongodb.index import (
 
 from middlewares.auth_middleware import user_token_required
 from utils.chat_history_parser import retrieve_chat_history
-from llama_index.chat_engine import ContextChatEngine
-from llama_index.memory import ChatMemoryBuffer
+from llama_index.core.chat_engine import ContextChatEngine
+from llama_index.core.memory import ChatMemoryBuffer
 from index_manager import initialize_index, get_service_context
 from bson.objectid import ObjectId
 from flask import request, jsonify, Response
@@ -95,6 +95,7 @@ def query_index(chatId):
     chat_engine = ContextChatEngine.from_defaults(
         retriever=query_engine,
         service_context=service_context,
+        memory=memory,
         system_prompt=(
             """\
             You are a chatbot. You MUST NOT provide any information unless it is in the Context or previous messages or general conversation. If the user ask something you don't know, say that you cannot answer. \

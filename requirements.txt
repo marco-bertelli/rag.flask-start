@@ -3,7 +3,13 @@ flask_limiter
 flask-cors
 python-dotenv
 pymongo
-llama_index==0.9.22
-pinecone
+pinecone-client
 llmsherpa
 pandas
+llama-index-core
+llama-index-vector-stores-pinecone
+llama-index-storage-index-store-mongodb
+llama-index-embeddings-huggingface
+llama-index-llms-perplexity
+transformers
+torch==2.2

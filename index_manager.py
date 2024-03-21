@@ -1,16 +1,15 @@
-from llama_index import (
+from llama_index.core import (
     VectorStoreIndex,
     StorageContext,
     ServiceContext,
-    LLMPredictor,
+    SimpleDirectoryReader
 )
 
-from llama_index.indices.loading import load_index_from_storage
+from llama_index.core.indices.loading import load_index_from_storage
 from utils.vector_database import build_pinecone_vector_store, build_mongo_index
 from mongodb.index import getExistingLlamaIndexes
-from llama_index import SimpleDirectoryReader
 
-from llama_index.llms import Perplexity
+from llama_index.llms.perplexity import Perplexity
 import os
 
 llm = Perplexity(
