@@ -11,15 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - run: sudo apt install python3
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push
+    - name: push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }} 
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+      run: git push https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git HEAD:master 
