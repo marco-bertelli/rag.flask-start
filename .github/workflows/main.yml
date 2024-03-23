@@ -6,12 +6,14 @@ on:
       - master
 
 jobs:
-  build:
+  heroku-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
-          heroku_email: "marcobert37@gmail.com"
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: marcobert37@gmail.com
