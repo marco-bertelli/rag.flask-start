@@ -9,6 +9,5 @@ pandas
 llama-index-core
 llama-index-vector-stores-pinecone
 llama-index-embeddings-fastembed
-fastembed
 llama-index-storage-index-store-mongodb
 llama-index-llms-perplexity
