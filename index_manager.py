@@ -10,19 +10,22 @@ from utils.vector_database import build_pinecone_vector_store, build_mongo_index
 from mongodb.index import getExistingLlamaIndexes
 
 from llama_index.llms.perplexity import Perplexity
+from llama_index.embeddings.fastembed import FastEmbedEmbedding
+
 import os
 
 llm = Perplexity(
     api_key=os.getenv("PERPLEXITY_API_KEY"), model="mixtral-8x7b-instruct", temperature=0.2
 )
 
+embed_model = FastEmbedEmbedding(model_name="BAAI/bge-small-en-v1.5")
 
 index_store = build_mongo_index()
 vector_store = build_pinecone_vector_store()
 
 service_context = ServiceContext.from_defaults(
     llm=llm,
-    embed_model="local:BAAI/bge-small-en-v1.5",
+    embed_model=embed_model,
 )
 
 storage_context = StorageContext.from_defaults(

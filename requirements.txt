@@ -8,8 +8,7 @@ llmsherpa
 pandas
 llama-index-core
 llama-index-vector-stores-pinecone
+llama-index-embeddings-fastembed
+fastembed
 llama-index-storage-index-store-mongodb
-llama-index-embeddings-huggingface
 llama-index-llms-perplexity
-transformers
-torch==2.2

@@ -95,7 +95,7 @@ def query_index(chatId):
     chat_engine = ContextChatEngine.from_defaults(
         retriever=query_engine,
         service_context=service_context,
-        memory=memory,
+        # memory=memory,
         system_prompt=(
             """\
             You are a chatbot. You MUST NOT provide any information unless it is in the Context or previous messages or general conversation. If the user ask something you don't know, say that you cannot answer. \
