@@ -12,3 +12,4 @@ llama-index-embeddings-fastembed==0.1.4
 fastembed
 llama-index-storage-index-store-mongodb
 llama-index-llms-perplexity
+gunicorn
