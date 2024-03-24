@@ -3,6 +3,7 @@ flask_limiter
 flask-cors
 python-dotenv
 pymongo
+motor
 pinecone-client
 llmsherpa
 pandas
