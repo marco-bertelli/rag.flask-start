@@ -13,3 +13,4 @@ fastembed
 llama-index-storage-index-store-mongodb
 llama-index-llms-perplexity
 gunicorn
+jwt
