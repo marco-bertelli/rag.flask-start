@@ -4,22 +4,42 @@ from llama_index.core import (
     SimpleDirectoryReader,
     Settings
 )
+from llama_index.embeddings.sagemaker_endpoint import SageMakerEmbedding
+from llama_index.llms.sagemaker_endpoint import SageMakerLLM
 from llama_index.core import load_index_from_storage
 
 from utils.vector_database import build_pinecone_vector_store, build_mongo_index
 from mongodb.index import getExistingLlamaIndexes
 
-from llama_index.llms.perplexity import Perplexity
+from handlers.llm_handler import MistralIOHandler, messages_to_prompt_mistral
+from handlers.embeddings_handler import BGEHandler
+
 import os
 
-llm = Perplexity(
-    api_key=os.getenv("PERPLEXITY_API_KEY"), 
-    model="mixtral-8x7b-instruct", 
-    temperature=0.2
+content_handler = BGEHandler()
+ministral_handler = MistralIOHandler()
+
+ENDPOINT_NAME = os.environ.get("SAGEMAKER_ENDPOINT_NAME")
+EMBED_ENDPOINT_NAME = os.environ.get("SAGEMAKER_EMBED_ENDPOINT_NAME")
+REGION_NAME = os.environ.get("AWS_REGION_NAME", "eu-west-1")
+
+llm = SageMakerLLM(
+    endpoint_name=ENDPOINT_NAME,
+    content_handler=ministral_handler,
+    aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
+    aws_region_name=REGION_NAME,
+    messages_to_prompt=messages_to_prompt_mistral
+)
+
+embed_model = SageMakerEmbedding(
+    endpoint_name=EMBED_ENDPOINT_NAME,
+    content_handler=content_handler,
+    region_name=REGION_NAME,
 )
 
 Settings.llm = llm
-Settings.embed_model = "local:BAAI/bge-small-en-v1.5" 
+Settings.embed_model = embed_model
 
 index_store = build_mongo_index()
 vector_store = build_pinecone_vector_store()

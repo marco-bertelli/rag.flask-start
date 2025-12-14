@@ -9,7 +9,7 @@ pandas
 llama-index-core
 llama-index-vector-stores-pinecone
 llama-index-storage-index-store-mongodb
-llama-index-embeddings-huggingface
-llama-index-llms-perplexity
+llama-index-embeddings-sagemaker_endpoint
+llama-index-llms-sagemaker_endpoint
 transformers
 torch==2.2
