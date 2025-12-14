@@ -22,6 +22,7 @@ limiter = Limiter(
 
 
 def getFlaskApp():
+    print ('Getting Flask app...')
     return app
 
 

@@ -1,11 +1,11 @@
 from llama_index.core import (
     VectorStoreIndex,
     StorageContext,
-    ServiceContext,
-    SimpleDirectoryReader
+    SimpleDirectoryReader,
+    Settings
 )
+from llama_index.core import load_index_from_storage
 
-from llama_index.core.indices.loading import load_index_from_storage
 from utils.vector_database import build_pinecone_vector_store, build_mongo_index
 from mongodb.index import getExistingLlamaIndexes
 
@@ -13,17 +13,16 @@ from llama_index.llms.perplexity import Perplexity
 import os
 
 llm = Perplexity(
-    api_key=os.getenv("PERPLEXITY_API_KEY"), model="mixtral-8x7b-instruct", temperature=0.2
+    api_key=os.getenv("PERPLEXITY_API_KEY"), 
+    model="mixtral-8x7b-instruct", 
+    temperature=0.2
 )
 
+Settings.llm = llm
+Settings.embed_model = "local:BAAI/bge-small-en-v1.5" 
 
 index_store = build_mongo_index()
 vector_store = build_pinecone_vector_store()
-
-service_context = ServiceContext.from_defaults(
-    llm=llm,
-    embed_model="local:BAAI/bge-small-en-v1.5",
-)
 
 storage_context = StorageContext.from_defaults(
     index_store=index_store,
@@ -31,7 +30,6 @@ storage_context = StorageContext.from_defaults(
 )
 
 mongoIndex = None
-
 
 def initialize_index():
     existing_indexes = getExistingLlamaIndexes()
@@ -42,9 +40,7 @@ def initialize_index():
         print("Loading existing index...")
 
         mongoIndex = load_index_from_storage(
-            service_context=service_context,
             storage_context=storage_context,
-            llm=llm,
             index_id='mongo-index',
         )
 
@@ -58,11 +54,7 @@ def initialize_index():
 
 
 def createQueryEngine(index):
-    return index.as_retriever(top_k=3)
-
-
-def get_service_context():
-    return service_context
+    return index.as_retriever(top_k=10)
 
 def update_index(doc):
     mongoIndex.insert(doc)
@@ -81,7 +73,6 @@ def buildVectorIndex():
 
     index = VectorStoreIndex.from_documents(
         documents,
-        service_context=service_context,
         storage_context=storage_context
     )
 
